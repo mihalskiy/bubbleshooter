@@ -167,7 +167,7 @@ BubbleShoot.Game = (function($){
 			requestAnimationID = requestAnimationFrame(renderFrame);
 		};
 		var endGame = function(hasWon){
-			if(score > highScore){
+      if(score > highScore){
 				highScore = score;
 				$("#new_high_score").show();
 				BubbleShoot.ui.drawHighScore(highScore);

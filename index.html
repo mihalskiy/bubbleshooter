@@ -40,16 +40,16 @@
 <body>
   <div id="page">
 	  <div id="top_bar">
-		  <div id="top_level_box" class="top_bar_box">
-			  <div id="top_level_label">Level:</div>
-			  <div id="level">1</div>
-		  </div>
-		  <div class="top_bar_box">
-			  <div id="top_score_label">Score:</div>
-			  <div id="score">0</div>
-		  </div>
-		  <div class="top_bar_box">
-		  	<div id="top_score_label">High Score:</div>
+<!--		  <div id="top_level_box" class="top_bar_box">-->
+<!--			  <div id="top_level_label">Level:</div>-->
+<!--			  <div id="level">1</div>-->
+<!--		  </div>-->
+<!--		  <div class="top_bar_box">-->
+<!--			  <div id="top_score_label">Score:</div>-->
+<!--			  <div id="score">0</div>-->
+<!--		  </div>-->
+		  <div class="top_bar_box money">
+		  	<img class="dollar-img" src="_img/dollar.png" alt="dollar"/>
 		  	<div id="high_score">0</div>
 	  	</div>
 	  </div>
@@ -57,32 +57,23 @@
 		  <div id="board"></div>
 		  <div id="bubbles_remaining"></div>
 	  </div>
-	  <div id="start_game" class="dialog">
-		  <div id="start_game_message">
-			  <h2>Start a new game</h2>
-		  </div>
-		  <div class="but_start_game button">
-			  New Game
-		  </div>
-	  </div>
+<!--	  <div id="start_game" class="dialog">-->
+<!--		  <div id="start_game_message">-->
+<!--			  <h2>Start a new game</h2>-->
+<!--		  </div>-->
+<!--		  <div class="but_start_game button">-->
+<!--			  New Game-->
+<!--		  </div>-->
+<!--	  </div>-->
 	  <div id="end_game" class="dialog">
-		<div id="end_game_message">
-			  <h2>Congratulations You Win</h2>
-			  <div id="final_score">
-			 	 <span>Final Score:</span>
-			  	<span id="final_score_value"></span>
-		 	 </div>
-			<div id="new_high_score">New High Score!</div>
-			  	<div id="level_failed" class="level_failed">Level Failed!</div>
-			 	 <div id="level_complete" class="level_complete">Level Complete!</div>
-			</div>
-			<div class="but_start_game button">
-			  <a href="https://gracious-kowalevski-8fedd2.netlify.app" class="level_complete">Next Level</a>
-			  <span class="level_failed">New Game</span>
-		  </div>
+      <div id="end_game_message" class="congratulations">
+        <img width="400" src="_img/congrats.png" alt="congratulations">
+      </div>
+      <a href="https://gracious-kowalevski-8fedd2.netlify.app" id="end_game_payment" class="win-dialog">
+        <span class="win-title">Win Cash</span>
+        <img width="150" height="50" src="_img/btnGreenMedium.png" alt="btnGreenMedium">
+      </a>
 	  </div>
-    <div id="footer_bar"></div>
-
   </div>
 </body>
 </html>

@@ -31,7 +31,8 @@ BubbleShoot.ui = (function($){
 			return angle;
 		},
 		fireBubble : function(bubble,coords,duration){
-			bubble.setState(BubbleShoot.BubbleState.FIRING);
+      BubbleShoot.Sounds.play("_mp3/bubble.mp3",Math.random()*.5 + .5);
+      bubble.setState(BubbleShoot.BubbleState.FIRING);
 			var complete = function(){
 				if(bubble.getRow() !== null){
 					bubble.getSprite().css(Modernizr.prefixed("transition"),"");
@@ -91,7 +92,7 @@ BubbleShoot.ui = (function($){
 			$("#score").text(score);
 		},
 		drawHighScore : function(highScore){
-			$("#high_score").text(highScore);
+			$("#high_score").text(`$${highScore.toFixed(2)}`);
 		},
 		drawLevel : function(level){
 			$("#level").text(level+1);
@@ -109,7 +110,10 @@ BubbleShoot.ui = (function($){
 			};
 			$("#end_game").fadeIn(500);
 			$("#final_score_value").text(score);
-		}
+      setTimeout(() => {
+        BubbleShoot.Sounds.play("_mp3/win.mp3",Math.random()*.5 + .5);
+      }, 500)
+    }
 	};
 	return ui;
 })(jQuery);

@@ -3,6 +3,7 @@ BubbleShoot.Renderer = (function($){
 	var canvas;
 	var context;
 	var spriteSheet;
+	var background;
 	var BUBBLE_IMAGE_DIM = 50;
 	var Renderer = {
 		init : function(callback){
@@ -14,9 +15,14 @@ BubbleShoot.Renderer = (function($){
 			context = canvas.getContext("2d");
 			spriteSheet = new Image();
 			spriteSheet.src = "_img/bubble_sprite_sheet.png";
+      background = new Image();
+      background.src = "http://i.imgur.com/yf6d9SX.jpg";
 			spriteSheet.onload = function() {
 				callback();
 			};
+      background.onload = function(){
+        context.drawImage(background,0,0);
+      }
 		},
 		render : function(bubbles){
 			context.clearRect(0,0,canvas.width,canvas.height);
