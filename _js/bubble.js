@@ -1,6 +1,7 @@
 var BubbleShoot = window.BubbleShoot || {};
 BubbleShoot.Bubble = (function($){
 	BubbleShoot.BubbleState = {
+		WIDTH : 0,
 		CURRENT : 1,
 		ON_BOARD : 2,
 		FIRING : 3,
@@ -56,6 +57,7 @@ BubbleShoot.Bubble = (function($){
 		};
 	};
 	Bubble.create = function(rowNum,colNum,type){
+    let colors = 0
 		if(type === undefined){
 			type = Math.floor(Math.random() * 4);
 		};

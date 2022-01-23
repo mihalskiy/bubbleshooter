@@ -1,7 +1,7 @@
 var BubbleShoot = window.BubbleShoot || {};
 BubbleShoot.Board = (function($){
 	var NUM_ROWS = 9;
-	var NUM_COLS = 5;
+	var NUM_COLS = 22;
 	var Board = function(){
 		var that = this;
 		var rows = createLayout();
@@ -109,11 +109,59 @@ BubbleShoot.Board = (function($){
 	};
 	var createLayout = function(){
 		var rows = [];
-		for(var i=0;i<NUM_ROWS;i++){
+    for(var i=0;i<NUM_ROWS;i++){
 			var row = [];
+			var colors = [
+        [null,0,null,1,null,2,null,3,null,0,
+         null,1,null,2,null,3,null,0,null,1,
+         null,2,null,3,null,0,null,1,null,2,
+         null,3,null,0,null,1,null,2,null,3
+        ],
+        [0,null,1,null,2,null,3,null,0,
+          null,1,null,2,null,3,null,0,null,1,
+          null,2,null,3,null,0,null,1,null,2,
+          null,3,null,0,null,1,null,2,null,3
+        ],
+        [null,0,null,1,null,2,null,3,null,0,
+          null,1,null,2,null,3,null,0,null,1,
+          null,2,null,3,null,0,null,1,null,2,
+          null,3,null,0,null,1,null,2,null,3
+        ],
+        [0,null,1,null,2,null,3,null,0,
+          null,1,null,2,null,3,null,0,null,1,
+          null,2,null,3,null,0,null,1,null,2,
+          null,3,null,0,null,1,null,2,null,3
+        ],
+        [null,0,null,1,null,2,null,3,null,0,
+          null,1,null,2,null,3,null,0,null,1,
+          null,2,null,3,null,0,null,1,null,2,
+          null,3,null,0,null,1,null,2,null,3
+        ],
+        [0,null,1,null,2,null,3,null,0,
+          null,1,null,2,null,3,null,0,null,1,
+          null,2,null,3,null,0,null,1,null,2,
+          null,3,null,0,null,1,null,2,null,3
+        ],
+        [null,0,null,1,null,2,null,3,null,0,
+          null,1,null,2,null,3,null,0,null,1,
+          null,2,null,3,null,0,null,1,null,2,
+          null,3,null,0,null,1,null,2,null,3
+        ],
+        [0,null,1,null,2,null,3,null,0,
+          null,1,null,2,null,3,null,0,null,1,
+          null,2,null,3,null,0,null,1,null,2,
+          null,3,null,0,null,1,null,2,null,3
+        ],
+        [null,0,null,1,null,2,null,3,null,0,
+          null,1,null,2,null,3,null,0,null,1,
+          null,2,null,3,null,0,null,1,null,2,
+          null,3,null,0,null,1,null,2,null,3
+        ],
+      ];
 			var startCol = i%2 == 0 ? 1 : 0;
 			for(var j=startCol;j<NUM_COLS;j+=2){
-				var bubble = BubbleShoot.Bubble.create(i,j);
+        console.log('colors', j, colors[i][j])
+				var bubble = BubbleShoot.Bubble.create(i,j,colors[i][j]);
 				bubble.setState(BubbleShoot.BubbleState.ON_BOARD);
 				if(BubbleShoot.Renderer){
 					var left = j * BubbleShoot.ui.BUBBLE_DIMS/2;
