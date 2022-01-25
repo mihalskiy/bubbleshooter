@@ -7,15 +7,12 @@ body
 	position: absolute;
 	left: 0;
 	top: 0;
-	width: 1000px;
-	height: 738px;
 }
 #top_bar
 {
 	position: absolute;
 	left: 0;
 	top: 0;
-	width: 1000px;
 	height: 70px;
 	background-color: #6f53cf;
 	color: #fff;
@@ -44,8 +41,6 @@ body
 	position: absolute;
 	left: 0;
 	top: 70px;
-	width: 1000px;
-	height: 620px;
 	background-color: #fff;
 	clip: auto;
 	overflow: hidden;
@@ -55,18 +50,6 @@ body
 	position: absolute;
 	left: 120px;
 	top: 0;
-	width: 760px;
-	height: 620px;
-}
-#footer_bar
-{
-	position: absolute;
-	left: 0;
-	top: 690px;
-	width: 1000px;
-	height: 48px;
-	background-color: #369;
-	color: #fff;
 }
 .dialog
 {
@@ -147,10 +130,8 @@ ease-in-out;
 }
 .game_canvas
 {
-	width: 1000px;
-	height: 620px;
   background-image: url(../_img/bg.png);
-  background-repeat: no-repeat;
+  background-repeat: repeat;
   background-size: auto;
   background-position: 1%;
 }

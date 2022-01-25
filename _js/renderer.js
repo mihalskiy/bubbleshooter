@@ -10,9 +10,10 @@ BubbleShoot.Renderer = (function($){
 			canvas = document.createElement("canvas");
 			$(canvas).addClass("game_canvas");
 			$("#game").prepend(canvas);
-			$(canvas).attr("width",$(canvas).width());
-			$(canvas).attr("height",$(canvas).height());
-			context = canvas.getContext("2d");
+			$(canvas).attr("width",window.innerWidth);
+			$(canvas).attr("height",window.innerHeight);
+      $('#top_bar').css('width', window.innerWidth);
+      context = canvas.getContext("2d");
 			spriteSheet = new Image();
 			spriteSheet.src = "_img/bubble_sprite_sheet.png";
       background = new Image();

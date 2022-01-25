@@ -6,13 +6,14 @@ BubbleShoot.Game = (function($){
 		var numBubbles;
 		var bubbles = [];
 		var MAX_BUBBLES = 70;
-		var POINTS_PER_BUBBLE = 50;
+		var POINTS_PER_BUBBLE = 5;
 		var level = 0;
 		var score = 0;
 		var highScore = 0;
 		var requestAnimationID;
 		var MAX_ROWS = 11;
 		this.init = function(){
+      localStorage.setItem('high_score', 0)
       numBubbles = MAX_BUBBLES - level * 5;
       BubbleShoot.ui.hideDialog();
       board = new BubbleShoot.Board();
@@ -61,8 +62,8 @@ BubbleShoot.Game = (function($){
 			bubbles.push(bubble);
 			bubble.setState(BubbleShoot.BubbleState.CURRENT);
 			bubble.getSprite().addClass("cur_bubble");
-			var top = 470;
-			var left = ($("#board").width() - BubbleShoot.ui.BUBBLE_DIMS)/2;
+			var top = window.innerHeight - 150;
+			var left = (window.innerWidth - BubbleShoot.ui.BUBBLE_DIMS)/2;
 			bubble.getSprite().css({
 				top : top,
 				left : left
@@ -116,9 +117,9 @@ BubbleShoot.Game = (function($){
 			};
 			BubbleShoot.ui.fireBubble(curBubble,coords,duration);
 			if(board.getRows().length > MAX_ROWS){
-				endGame(false);
+				endGame(true);
 			}else if(numBubbles == 0){
-				endGame(false);
+				endGame(true);
 			}else if(board.isEmpty()){
 				endGame(true);
 			}else{
