@@ -1,7 +1,7 @@
 var BubbleShoot = window.BubbleShoot || {};
 BubbleShoot.Board = (function($){
 	var NUM_ROWS = 9;
-	var NUM_COLS = 22;
+	var NUM_COLS = 32;
 	var Board = function(){
 		var that = this;
 		var rows = createLayout();
@@ -160,18 +160,21 @@ BubbleShoot.Board = (function($){
       ];
 			var startCol = i%2 == 0 ? 1 : 0;
 			for(var j=startCol;j<NUM_COLS;j+=2){
-        console.log('colors', j, colors[i][j])
-				var bubble = BubbleShoot.Bubble.create(i,j,colors[i][j]);
-				bubble.setState(BubbleShoot.BubbleState.ON_BOARD);
-				if(BubbleShoot.Renderer){
-					var left = j * BubbleShoot.ui.BUBBLE_DIMS/2;
-					var top = i * BubbleShoot.ui.ROW_HEIGHT;
-					bubble.getSprite().setPosition({
-						left : left,
-						top : top
-					});
-				};
-				row[j] = bubble;
+        if(typeof colors[i][j] === 'number') {
+          var bubble = BubbleShoot.Bubble.create(i,j,colors[i][j]);
+          bubble.setState(BubbleShoot.BubbleState.ON_BOARD);
+          if(BubbleShoot.Renderer){
+            var left = (window.innerWidth/2 - 11 * BubbleShoot.ui.BUBBLE_DIMS) + (j * BubbleShoot.ui.BUBBLE_DIMS/2);
+            var top = i * BubbleShoot.ui.ROW_HEIGHT;
+            console.log('i', i, 'left', left, 'top', top)
+
+            bubble.getSprite().setPosition({
+              left : left,
+              top : top
+            });
+          };
+          row[j] = bubble;
+        }
 			};
 			rows.push(row);
 		};
