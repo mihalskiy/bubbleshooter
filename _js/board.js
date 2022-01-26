@@ -164,7 +164,7 @@ BubbleShoot.Board = (function($){
           var bubble = BubbleShoot.Bubble.create(i,j,colors[i][j]);
           bubble.setState(BubbleShoot.BubbleState.ON_BOARD);
           if(BubbleShoot.Renderer){
-            var left = (window.innerWidth/2 - 11 * BubbleShoot.ui.BUBBLE_DIMS) + (j * BubbleShoot.ui.BUBBLE_DIMS/2);
+            var left = (BubbleShoot.width/2 - 11 * BubbleShoot.ui.BUBBLE_DIMS) + (j * BubbleShoot.ui.BUBBLE_DIMS/2);
             var top = i * BubbleShoot.ui.ROW_HEIGHT;
             console.log('i', i, 'left', left, 'top', top)
 

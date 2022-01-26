@@ -1,4 +1,6 @@
 var BubbleShoot = window.BubbleShoot || {};
+BubbleShoot.width = window.innerWidth > 1000 ? 1000 : window.innerWidth;
+BubbleShoot.height = window.innerHeight < 738 ? 738 : window.innerHeight;
 BubbleShoot.Renderer = (function($){
 	var canvas;
 	var context;
@@ -10,9 +12,10 @@ BubbleShoot.Renderer = (function($){
 			canvas = document.createElement("canvas");
 			$(canvas).addClass("game_canvas");
 			$("#game").prepend(canvas);
-			$(canvas).attr("width",window.innerWidth);
-			$(canvas).attr("height",window.innerHeight);
-      $('#top_bar').css('width', window.innerWidth);
+      $(canvas).attr("width",BubbleShoot.width);
+      $(canvas).attr("height",BubbleShoot.height);
+      $('#top_bar').css('width', BubbleShoot.width);
+      debugger
       context = canvas.getContext("2d");
 			spriteSheet = new Image();
 			spriteSheet.src = "_img/bubble_sprite_sheet.png";

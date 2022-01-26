@@ -63,7 +63,7 @@ BubbleShoot.Game = (function($){
 			bubble.setState(BubbleShoot.BubbleState.CURRENT);
 			bubble.getSprite().addClass("cur_bubble");
 			var top = window.innerHeight - 150;
-			var left = (window.innerWidth - BubbleShoot.ui.BUBBLE_DIMS)/2;
+			var left = (BubbleShoot.width- BubbleShoot.ui.BUBBLE_DIMS)/2;
 			bubble.getSprite().css({
 				top : top,
 				left : left
