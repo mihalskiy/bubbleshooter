@@ -15,7 +15,6 @@ BubbleShoot.Renderer = (function($){
       $(canvas).attr("width",BubbleShoot.width);
       $(canvas).attr("height",BubbleShoot.height);
       $('#top_bar').css('width', BubbleShoot.width);
-      debugger
       context = canvas.getContext("2d");
 			spriteSheet = new Image();
 			spriteSheet.src = "_img/bubble_sprite_sheet.png";

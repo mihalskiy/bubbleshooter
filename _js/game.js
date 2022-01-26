@@ -5,7 +5,7 @@ BubbleShoot.Game = (function($){
 		var board;
 		var numBubbles;
 		var bubbles = [];
-		var MAX_BUBBLES = 70;
+		var MAX_BUBBLES = 100;
 		var POINTS_PER_BUBBLE = 5;
 		var level = 0;
 		var score = 0;

@@ -112,50 +112,54 @@ BubbleShoot.Board = (function($){
     for(var i=0;i<NUM_ROWS;i++){
 			var row = [];
 			var colors = [
-        [null,0,null,1,null,2,null,3,null,0,
-         null,1,null,2,null,3,null,0,null,1,
-         null,2,null,3,null,0,null,1,null,2,
-         null,3,null,0,null,1,null,2,null,3
+        [null,null,null,null,null,null,null,0,null,0,
+         null,0,null,0,null,0,null,0,null,0,
+         null,0,null,0,null,null,null,null,null,null,
+         null,null,null,null,null,null,null,null,null,null
         ],
-        [0,null,1,null,2,null,3,null,0,
-          null,1,null,2,null,3,null,0,null,1,
-          null,2,null,3,null,0,null,1,null,2,
-          null,3,null,0,null,1,null,2,null,3
+        [ null,null,null,null,null,null,null,null,0,
+          null,0,null,0,null,0,null,0,null,0,
+          null,0,null,0,null,null,null,null,null,null,
+          null,null,null,null,null,null,null,null,null,null
         ],
-        [null,0,null,1,null,2,null,3,null,0,
-          null,1,null,2,null,3,null,0,null,1,
-          null,2,null,3,null,0,null,1,null,2,
-          null,3,null,0,null,1,null,2,null,3
+        [ null,null,null,null,null,null,null,2,null,0,
+          null,0,null,0,null,0,null,0,null,0,
+          null,0,null,2,null,null,null,null,null,null,
+          null,null,null,null,null,null,null,null,null,null
         ],
-        [0,null,1,null,2,null,3,null,0,
-          null,1,null,2,null,3,null,0,null,1,
-          null,2,null,3,null,0,null,1,null,2,
-          null,3,null,0,null,1,null,2,null,3
+        [
+          null,null,null,null,null,null,null,null,2,
+          null,0,null,0,null,0,null,0,null,0,
+          null,0,null,2,null,null,null,null,null,null,
+          null,null,null,null,null,null,null,null,null,null
         ],
-        [null,0,null,1,null,2,null,3,null,0,
-          null,1,null,2,null,3,null,0,null,1,
-          null,2,null,3,null,0,null,1,null,2,
-          null,3,null,0,null,1,null,2,null,3
+        [
+          null,null,null,null,null,null,null,null,null,2,
+          null,0,null,0,null,0,null,0,null,0,
+          null,2,null,null,null,null,null,null,null,null,
+          null,null
         ],
-        [0,null,1,null,2,null,3,null,0,
-          null,1,null,2,null,3,null,0,null,1,
-          null,2,null,3,null,0,null,1,null,2,
-          null,3,null,0,null,1,null,2,null,3
+        [
+          null,null,null,null,null,null,null,null,null,
+          null,2,null,0,null,0,null,0,null,0,
+          null,2,null,null,null,null,null,null,null,null,
+          null,null
         ],
-        [null,0,null,1,null,2,null,3,null,0,
-          null,1,null,2,null,3,null,0,null,1,
-          null,2,null,3,null,0,null,1,null,2,
-          null,3,null,0,null,1,null,2,null,3
+        [
+          null,null,null,null,null,null,null,null,null,1,
+          null,2,null,0,null,0,null,0,null,2,
+          null,1,null,null,null,null,null,null,null,null,
+          null,null
         ],
-        [0,null,1,null,2,null,3,null,0,
-          null,1,null,2,null,3,null,0,null,1,
-          null,2,null,3,null,0,null,1,null,2,
-          null,3,null,0,null,1,null,2,null,3
+        [null,null,null,null,null,null,null,null,null,
+          null,1,null,2,null,3,null,3,null,2,
+          null,1,null,null,null,null,null,null,null,null,
+          null,null
         ],
-        [null,0,null,1,null,2,null,3,null,0,
-          null,1,null,2,null,3,null,0,null,1,
-          null,2,null,3,null,0,null,1,null,2,
-          null,3,null,0,null,1,null,2,null,3
+        [null,null,null,null,null,null,null,null,null,1,
+          null,1,null,2,null,3,null,2,null,1,
+          null,1,null,null,null,null,null,null,null,null,
+          null,null
         ],
       ];
 			var startCol = i%2 == 0 ? 1 : 0;
