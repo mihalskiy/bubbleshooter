@@ -1,6 +1,6 @@
 var BubbleShoot = window.BubbleShoot || {};
 BubbleShoot.Board = (function($){
-	var NUM_ROWS = 9;
+	var NUM_ROWS = 13;
 	var NUM_COLS = 32;
 	var Board = function(){
 		var that = this;
@@ -159,6 +159,26 @@ BubbleShoot.Board = (function($){
         [null,null,null,null,null,null,null,null,null,1,
           null,1,null,2,null,3,null,2,null,1,
           null,1,null,null,null,null,null,null,null,null,
+          null,null
+        ],
+        [1,1,1,1,1,1,1,1,1,1,
+          1,1,1,2,1,3,1,2,1,1,
+          1,1,null,1,null,null,null,null,null,null,
+          null,null
+        ],
+        [1,1,1,1,1,1,1,1,1,1,
+          1,1,1,2,1,3,1,2,1,1,
+          1,1,null,1,null,null,null,null,null,null,
+          null,null
+        ],
+        [1,1,1,1,1,1,1,1,1,1,
+          1,1,1,2,1,3,1,2,1,1,
+          1,1,null,1,null,null,null,null,null,null,
+          null,null
+        ],
+        [1,1,1,1,1,1,1,1,1,1,
+          1,1,1,2,1,3,1,2,1,1,
+          1,1,null,1,null,null,null,null,null,null,
           null,null
         ],
       ];

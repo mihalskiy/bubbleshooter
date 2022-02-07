@@ -1,8 +1,19 @@
+var BubbleShoot = window.BubbleShoot || {};
+BubbleShoot.width = window.innerWidth > 1000 ? 1000 : window.innerWidth;
+BubbleShoot.height = window.innerHeight < 738 ? 500 :  window.innerHeight;
 window.onload = function() {
   // Get the canvas and context
-  var canvas = document.getElementById("viewport");
-  var context = canvas.getContext("2d");
+  document.getElementById("top_bar").style.width = BubbleShoot.width;
+  var canvas1 = document.getElementById('canvas'); //finds Original Canvas
+  var canv = document.createElement('canvas'); // creates new canvas element
+  canv.id = 'canvasdummy'; // gives canvas id
+  canv.height = BubbleShoot.height; //get original canvas height
+  canv.width = BubbleShoot.width;
+  document.body.appendChild(canv); // adds the canvas to the body element
+  var canvas = document.getElementById('canvasdummy'); //find new canvas we created
 
+  var context = canvas.getContext('2d');
+  canvas.width = BubbleShoot.width;
   // Timing and frames per second
   var lastframe = 0;
   var fpstime = 0;
@@ -10,19 +21,19 @@ window.onload = function() {
   var fps = 0;
 
   var initialized = false;
-
+  var isMobile = window.innerWidth < 1000
   // Level
   var level = {
-    x: 4,           // X position
-    y: 83,          // Y position
+    x: 0,           // X position
+    y: 75,          // Y position
     width: 0,       // Width, gets calculated
     height: 0,      // Height, gets calculated
     columns: 15,    // Number of tile columns
-    rows: 14,       // Number of tile rows
-    tilewidth: 40,  // Visual width of a tile
-    tileheight: 40, // Visual height of a tile
-    rowheight: 34,  // Height of a row
-    radius: 20,     // Bubble collision radius
+    rows: 26,       // Number of tile rows
+    tilewidth: isMobile ? 64 : 64,  // Visual width of a tile
+    tileheight: isMobile ? 64 : 64, // Visual height of a tile
+    rowheight: isMobile ? 50 : 50,  // Height of a row
+    radius: isMobile ? 32 : 32,     // Bubble collision radius
     tiles: []       // The two-dimensional tile array
   };
 
@@ -48,15 +59,16 @@ window.onload = function() {
       x: 0,
       y: 0,
       angle: 0,
-      speed: 1000,
-      dropspeed: 900,
+      speed: 1500,
+      dropspeed: 1400,
       tiletype: 0,
       visible: false
     },
     nextbubble: {
       x: 0,
       y: 0,
-      tiletype: 0
+      tiletype: 4,
+      colors: [4,2,3,1]
     }
   };
 
@@ -147,8 +159,8 @@ window.onload = function() {
       }
     }
     //灰色版面
-    level.width = level.columns * level.tilewidth + level.tilewidth/2;
-    level.height = (level.rows-1) * level.rowheight + level.tileheight;
+    level.width = BubbleShoot.width;
+    level.height = window.innerHeight - 200;
 
     // Init the player 玩家發射球排版位置
     player.x = level.x + level.width/2- level.tilewidth/2;
@@ -179,20 +191,6 @@ window.onload = function() {
 
       // Draw the frame
       drawFrame();
-
-      // Draw a progress bar
-      var loadpercentage = loadcount/loadtotal;
-      context.strokeStyle = "#ff8080";
-      context.lineWidth=3;
-      context.strokeRect(18.5, 0.5 + canvas.height - 51, canvas.width-37, 32);
-      context.fillStyle = "#ff8080";
-      context.fillRect(18.5, 0.5 + canvas.height - 51, loadpercentage*(canvas.width-37), 32);
-
-      // Draw the progress text
-      var loadtext = "Loaded " + loadcount + "/" + loadtotal + " images";
-      context.fillStyle = "#000000";
-      context.font = "16px Verdana";
-      context.fillText(loadtext, 18, 0.5 + canvas.height - 63);
 
       if (preloaded) {
         // Add a delay for demonstration purposes
@@ -295,7 +293,7 @@ window.onload = function() {
       }
 
       // Add cluster score
-      score += cluster.length * 100;
+      score += cluster.length * 2;
 
       // Find floating clusters
       floatingclusters = findFloatingClusters();
@@ -309,7 +307,7 @@ window.onload = function() {
             tile.shift = 1;
             tile.velocity = player.bubble.dropspeed;
 
-            score += 100;
+            score += 10;
           }
         }
       }
@@ -691,26 +689,23 @@ window.onload = function() {
     drawFrame();
 
     var yoffset =  level.tileheight/2;
+    var grad = context.createLinearGradient(300, 200, 300, 0);
 
+    grad.addColorStop(0, 'rgba(253, 92, 253, 1)');
+    grad.addColorStop(1, 'rgba(193, 48, 255, 1)');
+
+    context.fillStyle = grad;
     // Draw level background
-    context.fillStyle = "#0080FF";
     context.fillRect(level.x-4, level.y - 4, level.width + 8, level.height + 4 - yoffset);
 
     // Render tiles
     renderTiles();
-
-    // Draw level bottom
-    context.fillStyle = "#4DFFFF";
-    context.fillRect(level.x - 4, level.y - 4 + level.height + 4 - yoffset, level.width + 8, 2*level.tileheight + 3);
-
+    context.fillStyle = "transporter";
+    context.fillRect(level.x - 4, level.y - 4 + level.height + 4 - yoffset, level.width + 48, 2*level.tileheight + 30);
     // Draw score
-    context.fillStyle = "#0000C6";
-    context.font = "18px Verdana";
-    var scorex = level.x + level.width - 150;
-    var scorey = level.y+level.height + level.tileheight - yoffset - 8;
-    drawCenterText("Score:", scorex, scorey, 150);
-    context.font = "24px Verdana";
-    drawCenterText(score, scorex, scorey+30, 150);
+    var high_score = document.getElementById('high_score');
+
+    high_score.innerHTML = '$' +score;
 
     // Render cluster
     if (showcluster) {
@@ -727,20 +722,6 @@ window.onload = function() {
     renderPlayer();
 
 
-    context.fillStyle = "#FF2D2D";
-    context.fillRect(level.x+10,level.y + level.height+20 , level.x+40,50 );
-    context.fillStyle = "#000000";
-    context.font = "18px Verdana";
-    drawCenterText("clear", level.x+10,level.y + level.height+45 , 45);
-
-
-    context.fillStyle = "#28FF28";
-    context.fillRect(level.x*2+64,level.y + level.height+20 ,level.x+40,50 );
-    context.fillStyle = "#000000";
-    context.font = "18px Verdana";
-    drawCenterText("tool", 70,level.y + level.height+45 , 45);
-
-
 
 
     // Game Over overlay
@@ -750,6 +731,8 @@ window.onload = function() {
 
       context.fillStyle = "#ffffff";
       context.font = "24px Verdana";
+      document.getElementById("end_game").style.display = 'block';
+      runConfetti()
       drawCenterText("Game Over!", level.x, level.y + level.height / 2 + 10, level.width);
       drawCenterText("Click to start", level.x, level.y + level.height / 2 + 40, level.width);
     }
@@ -758,8 +741,8 @@ window.onload = function() {
   // Draw a frame around the game
   function drawFrame() {
     // Draw background
-    context.fillStyle = "#e8eaec";
-    context.fillRect(0, 0, canvas.width, canvas.height);
+    context.fillStyle = "#222";
+    //context.fillRect(0, 0, canvas.width, canvas.height);
 
     // Draw header 頭
     context.fillStyle = "#FFD306";
@@ -819,7 +802,7 @@ window.onload = function() {
 
   // Render the player bubble
   function renderPlayer() {
-    var centerx = player.x + level.tilewidth/2;
+    var centerx = BubbleShoot.width/2;
     var centery = player.y + level.tileheight/2;
 
     // Draw player background circle
@@ -832,15 +815,16 @@ window.onload = function() {
     context.stroke();
 
     // Draw the angle
-    context.lineWidth = 2;
-    context.strokeStyle = "#0000ff";
+    context.lineWidth = 3
+    context.strokeStyle = "#ccc";
+    context.setLineDash([5, 3]);
     context.beginPath();
     context.moveTo(centerx, centery);
     context.lineTo(centerx + 1.5*level.tilewidth * Math.cos(degToRad(player.angle)), centery - 1.5*level.tileheight * Math.sin(degToRad(player.angle)));
     context.stroke();
 
     // Draw the next bubble
-    drawBubble(player.nextbubble.x, player.nextbubble.y, player.nextbubble.tiletype);
+    //drawBubble(centerx, player.nextbubble.y, player.nextbubble.tiletype);
 
     // Draw the bubble
     if (player.bubble.visible) {
@@ -890,6 +874,7 @@ window.onload = function() {
   function newGame() {
     // Reset score
     score = 0;
+    document.getElementById("end_game").style.display = 'none';
 
     turncounter = 0;
     rowoffset = 0;
@@ -906,19 +891,38 @@ window.onload = function() {
   }
 
   // Create a random level
-  function createLevel() {//生產球
+  function createLevel() {
     // Create a level with random tiles
+    const colors = [
+     // 1R  2R  3R  4R  5R  6R  7R  8R  9R  10R  11R 12R 13R
+      [ -1, -1, -1, -1, -1, -1, -1, -1, -1, -1,  -1, -1, -1],
+      [ -1, -1, -1, -1, -1, -1, -1, -1, -1, -1,  -1, -1, -1],
+      [ 1,   1,  1,  1,  2,  2, -1, -1, -1, -1,  -1, -1, -1],
+      [ 1,   1,  1,  1,  1,  1,  2,  2, -1, -1,  -1, -1, -1],
+      [ 1,   1,  1,  1,  1,  1,  1,  1,  2,  2,   4,  4,  4],
+      [ 1,   1,  1,  1,  1,  1,  1,  1,  1,  1,   2,  2,  4],
+      [ 1,   1,  1,  1,  1,  1,  1,  1,  1,  1,   1,  3,  2],
+      [ 1,   1,  1,  1,  1,  1,  1,  1,  1,  1,   1,  3,  3],
+      [ 1,   1,  1,  1,  1,  1,  1,  1,  1,  1,   1,  2,  2],
+      [ 1,   1,  1,  1,  1,  1,  1,  1,  1,  2,   2,  4,  4],
+      [ 1,   1,  1,  1,  1,  1,  1,  2,  2, -1,   4, -1,  4],
+      [ 1,   1,  1,  1,  1,  2,  2, -1, -1, -1,  -1, -1, -1],
+      [ 1,  -1,  1, -1,  2, -1, -1, -1, -1, -1,  -1, -1, -1],
+      [-1,  -1, -1, -1, -1, -1, -1, -1, -1, -1,  -1, -1, -1],
+      [-1,  -1, -1, -1, -1, -1, -1, -1, -1, -1,  -1, -1, -1],
+    ]
     for (var j=0; j<level.rows; j++) {
-      var randomtile = randRange(0, bubblecolors-2);
+      var randomtile = randRange(0, bubblecolors-1);
       var count = 0;
+      var x = 5;
       for (var i=0; i<level.columns; i++) {
         if (count >= 2) {
           // Change the random tile
-          var newtile = randRange(0, bubblecolors-2);
+          var newtile = randRange(0, bubblecolors-1);
 
           // Make sure the new tile is different from the previous tile
           if (newtile == randomtile) {
-            newtile = (newtile + 1) % bubblecolors-1;
+            newtile = (newtile + 1) % bubblecolors;
           }
           randomtile = newtile;
           count = 0;
@@ -926,14 +930,130 @@ window.onload = function() {
         count++;
 
         if (j < level.rows/2) {
-          level.tiles[i][j].type = randomtile;
+          level.tiles[i][j].type = colors[i][j];
         } else {
           level.tiles[i][j].type = -1;
         }
+        x++;
       }
     }
   }
 
+  function runConfetti() {
+    //-----------Var Inits--------------
+    var cx = context.canvas.width/2;
+    var cy = context.canvas.height/2;
+
+    let confetti = [];
+    const confettiCount = 300;
+    const gravity = 0.5;
+    const terminalVelocity = 0.1;
+    const drag = 0.075;
+    const colors = [
+      { front : 'red', back: 'darkred'},
+      { front : 'green', back: 'darkgreen'},
+      { front : 'blue', back: 'darkblue'},
+      { front : 'yellow', back: 'darkyellow'},
+      { front : 'orange', back: 'darkorange'},
+      { front : 'pink', back: 'darkpink'},
+      { front : 'purple', back: 'darkpurple'},
+      { front : 'turquoise', back: 'darkturquoise'},
+    ];
+
+//-----------Functions--------------
+    resizeCanvas = () => {
+      canvas.width = window.innerWidth;
+      canvas.height = window.innerHeight;
+      cx = context.canvas.width/2;
+      cy = context.canvas.height/2;
+    }
+
+    randomRange = (min, max) => Math.random() * (max - min) + min
+
+    initConfetti = () => {
+      for (let i = 0; i < confettiCount; i++) {
+        confetti.push({
+          color : colors[Math.floor(randomRange(0, colors.length))],
+          dimensions : {
+            x: randomRange(10, 20),
+            y: randomRange(10, 30),
+          },
+          position   : {
+            x: randomRange(0, canvas.width),
+            y: canvas.height - 1,
+          },
+          rotation   : randomRange(0, 2 * Math.PI),
+          scale      : {
+            x: 1,
+            y: 1,
+          },
+          velocity   : {
+            x: randomRange(-25, 25),
+            y: randomRange(0, -50),
+          },
+        });
+      }
+    }
+
+//---------Render-----------
+    render = () => {
+      context.clearRect(0, 0, canvas.width, canvas.height);
+
+      confetti.forEach((confetto, index) => {
+        let width = (confetto.dimensions.x * confetto.scale.x);
+        let height = (confetto.dimensions.y * confetto.scale.y);
+
+        // Move canvas to position and rotate
+        context.translate(confetto.position.x, confetto.position.y);
+        context.rotate(confetto.rotation);
+
+        // Apply forces to velocity
+        confetto.velocity.x -= confetto.velocity.x * drag;
+        confetto.velocity.y = Math.min(confetto.velocity.y + gravity, terminalVelocity);
+        confetto.velocity.x += Math.random() > 0.5 ? Math.random() : -Math.random();
+
+        // Set position
+        confetto.position.x += confetto.velocity.x;
+        confetto.position.y += confetto.velocity.y;
+
+        // Delete confetti when out of frame
+        if (confetto.position.y >= canvas.height) confetti.splice(index, 1);
+
+        // Loop confetto x position
+        if (confetto.position.x > canvas.width) confetto.position.x = 0;
+        if (confetto.position.x < 0) confetto.position.x = canvas.width;
+
+        // Spin confetto by scaling y
+        confetto.scale.y = Math.cos(confetto.position.y * 0.1);
+        context.fillStyle = confetto.scale.y > 0 ? confetto.color.front : confetto.color.back;
+
+        // Draw confetto
+        context.fillRect(-width / 2, -height / 2, width, height);
+
+        // Reset transform matrix
+        context.setTransform(1, 0, 0, 1, 0, 0);
+      });
+
+      // Fire off another round of confetti
+      if (confetti.length <= 10) initConfetti();
+
+      window.requestAnimationFrame(render);
+    }
+
+//---------Execution--------
+    initConfetti();
+    render();
+
+//----------Resize----------
+    window.addEventListener('resize', function () {
+      resizeCanvas();
+    });
+
+//------------Click------------
+    window.addEventListener('click', function() {
+      initConfetti();
+    });
+  }
   // Create a random bubble for the player
   function nextBubble() {
     // Set the current bubble
@@ -946,18 +1066,20 @@ window.onload = function() {
     // Get a random type from the existing colors
     var nextcolor = getExistingColor();
 
-    // Set the next bubble
     player.nextbubble.tiletype = nextcolor;
   }
 
   // Get a random existing color
   function getExistingColor() {
-    existingcolors = findColors();
-
+    existingcolors = findColors().sort();
     var bubbletype = 0;
-    if (existingcolors.length > 0) {
-      bubbletype = existingcolors[randRange(0, existingcolors.length-2)];
+    if(player.nextbubble.colors.length) {
+      bubbletype = player.nextbubble.colors[0];
+      player.nextbubble.colors.shift()
+    } else {
+      bubbletype = existingcolors[existingcolors.length-1];
     }
+
 
     return bubbletype;
   }

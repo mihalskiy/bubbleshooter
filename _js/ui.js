@@ -98,6 +98,7 @@ BubbleShoot.ui = (function($){
 			$("#level").text(level+1);
 		},
 		endGame : function(hasWon,score){
+      if(!hasWon) return
 			$("#game").unbind("click");
 			$("#game").unbind("mousemove");
 			BubbleShoot.ui.drawBubblesRemaining(0);
