@@ -30,10 +30,10 @@ window.onload = function() {
     height: 0,      // Height, gets calculated
     columns: 15,    // Number of tile columns
     rows: 26,       // Number of tile rows
-    tilewidth: isMobile ? 64 : 64,  // Visual width of a tile
-    tileheight: isMobile ? 64 : 64, // Visual height of a tile
-    rowheight: isMobile ? 50 : 50,  // Height of a row
-    radius: isMobile ? 32 : 32,     // Bubble collision radius
+    tilewidth: !isMobile ? 60 : 64,  // Visual width of a tile
+    tileheight: !isMobile ? 60 : 64, // Visual height of a tile
+    rowheight: !isMobile ? 45 : 50,  // Height of a row
+    radius: !isMobile ? 30 : 32,     // Bubble collision radius
     tiles: []       // The two-dimensional tile array
   };
 
