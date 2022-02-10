@@ -25,7 +25,7 @@ window.onload = function() {
   // Level
   var level = {
     x: 0,           // X position
-    y: 75,          // Y position
+    y: 105,          // Y position
     width: 0,       // Width, gets calculated
     height: 0,      // Height, gets calculated
     columns: 15,    // Number of tile columns
@@ -51,16 +51,16 @@ window.onload = function() {
 
   // Player
   var player = {
-    x: 0,
+    x: 100,
     y: 0,
     angle: 0,
     tiletype: 0,
     bubble: {
       x: 0,
       y: 0,
-      angle: 0,
-      speed: 1500,
-      dropspeed: 1400,
+      angle: 100,
+      speed: 3500,
+      dropspeed: 2600,
       tiletype: 0,
       visible: false
     },
@@ -460,7 +460,7 @@ window.onload = function() {
     turncounter++;
     if (turncounter >= 5) {
       // Add a row of bubbles
-      addBubbles();
+      //addBubbles();
       turncounter = 0;
       rowoffset = (rowoffset + 1) % 2;
 
@@ -803,7 +803,7 @@ window.onload = function() {
   // Render the player bubble
   function renderPlayer() {
     var centerx = BubbleShoot.width/2;
-    var centery = player.y + level.tileheight/2;
+    var centery = (player.y + level.tileheight/2) - 100;
 
     // Draw player background circle
     context.fillStyle = "#7a7a7a";
@@ -828,7 +828,7 @@ window.onload = function() {
 
     // Draw the bubble
     if (player.bubble.visible) {
-      drawBubble(player.bubble.x, player.bubble.y, player.bubble.tiletype);
+      drawBubble(player.bubble.x, player.bubble.y - 100, player.bubble.tiletype);
     }
 
   }
@@ -1071,7 +1071,7 @@ window.onload = function() {
 
   // Get a random existing color
   function getExistingColor() {
-    existingcolors = findColors().sort();
+    existingcolors = findColors().sort().reverse();
     var bubbletype = 0;
     if(player.nextbubble.colors.length) {
       bubbletype = player.nextbubble.colors[0];
