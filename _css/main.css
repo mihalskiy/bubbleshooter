@@ -141,7 +141,7 @@ ease-in-out;
 }
 #canvasdummy
 {
-  background:linear-gradient(0deg, #FFFFFF 0%, #FD5CFD 0%, #C130FF 100%);
+  background:linear-gradient(90deg, rgba(185, 159, 239, 1) 0%, rgba(202, 166, 220, 1) 81%);
 }
 #final_score
 {

@@ -32,7 +32,7 @@ window.onload = function() {
     rows: 26,       // Number of tile rows
     tilewidth: !isMobile ? 60 : 64,  // Visual width of a tile
     tileheight: !isMobile ? 60 : 64, // Visual height of a tile
-    rowheight: !isMobile ? 45 : 50,  // Height of a row
+    rowheight: !isMobile ? 55 : 55,  // Height of a row
     radius: !isMobile ? 30 : 32,     // Bubble collision radius
     tiles: []       // The two-dimensional tile array
   };
@@ -143,7 +143,7 @@ window.onload = function() {
   // Initialize the game
   function init() {
     // Load images
-    images = loadImages(["https://raw.githubusercontent.com/rembound/Bubble-Shooter-HTML5/master/bubble-sprites.png"]);
+    images = loadImages(["./bubble-sprites.png"]);
     bubbleimage = images[0];
 
     // Add mouse events
@@ -689,12 +689,13 @@ window.onload = function() {
     drawFrame();
 
     var yoffset =  level.tileheight/2;
-    var grad = context.createLinearGradient(300, 200, 300, 0);
+    var grad = context.createLinearGradient(0, 100, 600, 100);
 
-    grad.addColorStop(0, 'rgba(253, 92, 253, 1)');
-    grad.addColorStop(1, 'rgba(193, 48, 255, 1)');
+    grad.addColorStop(0, 'rgba(185, 159, 239, 1)');
+    grad.addColorStop(0.81, 'rgba(202, 166, 220, 1)');
 
     context.fillStyle = grad;
+    context.fillRect(0, 0, 600, 200);
     // Draw level background
     context.fillRect(level.x-4, level.y - 4, level.width + 8, level.height + 4 - yoffset);
 
