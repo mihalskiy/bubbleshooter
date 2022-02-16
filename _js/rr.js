@@ -11,7 +11,6 @@ window.onload = function() {
   canv.width = BubbleShoot.width;
   document.body.appendChild(canv); // adds the canvas to the body element
   var canvas = document.getElementById('canvasdummy'); //find new canvas we created
-
   var context = canvas.getContext('2d');
   canvas.width = BubbleShoot.width;
   // Timing and frames per second
@@ -36,6 +35,166 @@ window.onload = function() {
     radius: !isMobile ? 30 : 32,     // Bubble collision radius
     tiles: []       // The two-dimensional tile array
   };
+
+  var touchMouse = (function(){
+    "use strict";
+    var timeStart, touchStart, mouseTouch, listeningElement, hypot;
+
+
+    mouseTouch = {};  // the public object
+    // public properties.
+    mouseTouch.clickRadius = 3; // if touch start and end within 3 pixels then may be a click
+    mouseTouch.clickTime = 200; // if touch start and end in under this time in ms then may be a click
+    mouseTouch.generateClick = true; // if true simulates onClick event
+                                     // if false only generate mousedown, mousemove, and mouseup
+    mouseTouch.clickOnly = false; // if true on generate click events
+    mouseTouch.status = "Started."; // just for debugging
+
+
+
+    // ES6 new math function
+    // not sure the extent of support for Math.hypot so hav simple poly fill
+    if(typeof Math.hypot === 'function'){
+      hypot = Math.hypot;
+    }else{
+      hypot = function(x,y){  // Untested
+        return Math.sqrt(Math.pow(x,2)+Math.pow(y,2));
+      };
+    }
+    // Use the new API and MouseEvent object
+    function triggerMouseEvemt(type,fromTouch,fromEvent){
+      var mouseEvent = new MouseEvent(
+        type,
+        {
+          'view': fromEvent.target.ownerDocument.defaultView,
+          'bubbles': true,
+          'cancelable': true,
+          'screenX':fromTouch.screenX,
+          'screenY':fromTouch.screenY,
+          'clientX':fromTouch.clientX,
+          'clientY':fromTouch.clientY,
+          'offsetX':fromTouch.clientX, // this is for old Chrome
+          'offsetY':fromTouch.clientY,
+          'ctrlKey':fromEvent.ctrlKey,
+          'altKey':fromEvent.altKey,
+          'shiftKey':fromEvent.shiftKey,
+          'metaKey':fromEvent.metaKey,
+          'button':0,
+          'buttons':1,
+        });
+      // to do.
+      // dispatch returns cancelled you will have to
+      // add code here if needed
+      fromTouch.target.dispatchEvent(mouseEvent);
+    }
+
+    // touch listener. Listens to Touch start, move and end.
+    // dispatches mouse events as needed. Also sends a click event
+    // if click falls within supplied thresholds and conditions
+    function emulateMouse(event) {
+
+      var type, time, touch, isClick, mouseEventType, x, y, dx, dy, dist;
+      event.preventDefault();  // stop any default happenings interfering
+      type = event.type ;  // the type.
+
+      // ignore multi touch input
+      if (event.touches.length > 1){
+        if(touchStart !== undefined){ // don't leave the mouse down
+          triggerMouseEvent("mouseup",event.changedTouches[0],event);
+        }
+        touchStart = undefined;
+        return;
+      }
+      mouseEventType = "";
+      isClick = false;  // default no click
+      // check for each event type I have the most numorus move event first, Good practice to always think about the efficancy for conditional coding.
+      if(type === "touchmove" && !mouseTouch.clickOnly){        // touchMove
+        touch = event.changedTouches[0];
+        mouseEventType = "mousemove";      // not much to do just move the mouse
+      }else
+      if(type === "touchstart"){
+        touch = touchStart = event.changedTouches[0]; // save the touch start for dist check
+        timeStart = event.timeStamp; // save the start time
+        mouseEventType = !mouseTouch.clickOnly?"mousedown":"";     // mouse event to create
+      }else
+      if(type === "touchend"){  // end check time and distance
+        touch =  event.changedTouches[0];
+        mouseEventType = !mouseTouch.clickOnly?"mouseup":"";     // ignore mouse up if click only
+        // if click generator active
+        if(touchStart !== undefined && mouseTouch.generateClick){
+          time = event.timeStamp - timeStart;  // how long since touch start
+          // if time is right
+          if(time < mouseTouch.clickTime){
+            // get the distance from the start touch
+            dx = touchStart.clientX-touch.clientX;
+            dy = touchStart.clientY-touch.clientY;
+            dist = hypot(dx,dy);
+            if(dist < mouseTouch.clickRadius){
+              isClick = true;
+            }
+            debugger
+          }
+        }
+      }
+      // send mouse basic events if any
+      if(mouseEventType !== ""){
+        // send the event
+        console.log('touch', mouseEventType)
+        if(mouseEventType === 'mouseup') {
+          onMouseDown(touch)
+        }
+
+        if(mouseEventType === 'mousemove') {
+          onMouseMove(touch)
+        }
+        //triggerMouseEvent(mouseEventType,touch,event);
+      }
+      // if a click also generates a mouse click event
+      if(isClick){
+        // generate mouse click
+        triggerMouseEvent("click",touch,event);
+      }
+    }
+
+    // remove events
+    function removeTouchEvents(){
+      listeningElement.removeEventListener("touchstart", emulateMouse);
+      listeningElement.removeEventListener("touchend", emulateMouse);
+      listeningElement.removeEventListener("touchmove", emulateMouse);
+      listeningElement = undefined;
+
+    }
+
+    // start  adds listeners and makes it all happen.
+    // element is optional and will default to document.
+    // or will Listen to element.
+    function startTouchEvents(element){
+      if(listeningElement !== undefined){ // untested
+        // throws to stop cut and past useage of this example code.
+        // Overwriting the listeningElement can result in a memory leak.
+        // You can remove this condition block and it will work
+        // BUT IT IS NOT RECOGMENDED
+
+        throw new ReferanceError("touchMouse says!!!! API limits functionality to one element.");
+      }
+      if(element === undefined){
+        element = document;
+      }
+      listeningElement = element;
+      listeningElement.addEventListener("touchstart", emulateMouse);
+      listeningElement.addEventListener("touchend", emulateMouse);
+      listeningElement.addEventListener("touchmove", emulateMouse);
+    }
+
+    // add the start event to public object.
+    mouseTouch.start = startTouchEvents;
+    // stops event listeners and remove them from the DOM
+    mouseTouch.stop = removeTouchEvents;
+
+    return mouseTouch;
+
+  })();
+
 
   // Define a tile class
   var Tile = function(x, y, type, shift) {
@@ -149,7 +308,10 @@ window.onload = function() {
     // Add mouse events
     canvas.addEventListener("mousemove", onMouseMove);
     canvas.addEventListener("mousedown", onMouseDown);
-
+    if(canvas !== null){
+      touchMouse.generateClick = false; // no mouse clicks please
+      touchMouse.start(canvas);
+    }
     // Initialize the two-dimensional tile array
     for (var i=0; i<level.columns; i++) {
       level.tiles[i] = [];
