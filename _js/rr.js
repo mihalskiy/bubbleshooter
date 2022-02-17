@@ -132,7 +132,6 @@ window.onload = function() {
             if(dist < mouseTouch.clickRadius){
               isClick = true;
             }
-            debugger
           }
         }
       }
@@ -140,7 +139,8 @@ window.onload = function() {
       if(mouseEventType !== ""){
         // send the event
         console.log('touch', mouseEventType)
-        if(mouseEventType === 'mouseup') {
+        console.log('isClick', isClick)
+        if(mouseEventType === 'mouseup' && !isClick) {
           onMouseDown(touch)
         }
 
@@ -151,8 +151,8 @@ window.onload = function() {
       }
       // if a click also generates a mouse click event
       if(isClick){
-        // generate mouse click
-        triggerMouseEvent("click",touch,event);
+        onMouseMove(touch)
+        onMouseDown(touch)
       }
     }
 
@@ -309,7 +309,7 @@ window.onload = function() {
     canvas.addEventListener("mousemove", onMouseMove);
     canvas.addEventListener("mousedown", onMouseDown);
     if(canvas !== null){
-      touchMouse.generateClick = false; // no mouse clicks please
+      touchMouse.generateClick = true; // no mouse clicks please
       touchMouse.start(canvas);
     }
     // Initialize the two-dimensional tile array
